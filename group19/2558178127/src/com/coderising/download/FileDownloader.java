@@ -23,7 +23,7 @@ public class FileDownloader {
 
 	}
 
-	public void execute() throws IOException {
+	public synchronized void execute() throws IOException {
 		// 在这里实现你的代码， 注意： 需要用多线程实现下载
 		// 这个类依赖于其他几个接口, 你需要写这几个接口的实现代码
 		// (1) ConnectionManager , 可以打开一个连接，通过Connection可以读取其中的一段（用startPos,

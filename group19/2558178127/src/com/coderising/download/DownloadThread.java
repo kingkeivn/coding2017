@@ -3,7 +3,7 @@ package com.coderising.download;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.net.URL;
+import java.util.Date;
 
 import com.coderising.download.api.Connection;
 import com.coderising.download.api.ConnectionManager;
@@ -24,7 +24,9 @@ public class DownloadThread extends Thread{
 		this.file = file;
 	}
 
+	@Override
 	public void run() {
+		
 		try {
 			FileDownloader downloader = new FileDownloader(path);
 			ConnectionManager cm = new ConnectionManagerImpl();

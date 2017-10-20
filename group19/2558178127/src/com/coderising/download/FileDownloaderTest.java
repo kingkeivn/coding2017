@@ -39,7 +39,6 @@ public class FileDownloaderTest {
 
 		});
 
-		
 		downloader.execute();
 		
 		// 等待多线程下载程序执行完毕
@@ -47,7 +46,7 @@ public class FileDownloaderTest {
 			try {
 				System.out.println("还没有下载完成，休眠五秒");
 				//休眠5秒
-				Thread.sleep(5000);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
