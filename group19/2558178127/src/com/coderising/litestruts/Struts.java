@@ -10,6 +10,8 @@ import com.coderising.litestruts.xml.read.XmlService;
 
 public class Struts {
 
+	private final static Configuration cfg = new Configuration("struts.xml");
+	
     public static View runAction(String actionName, Map<String,String> parameters) throws Exception{
 
         /*
@@ -34,24 +36,23 @@ public class Struts {
     	
     	new XmlService().readDocument();  //读取xml。把xml信息存入map
     	
-    	String clsName = readxml(actionName,"class");//获取action对应class对象
+    	String clsName = cfg.getClassName(actionName);//获取action对应class对象
+    	
+    	if(clsName == null){
+    		return null;
+    	}
     	Class c1 = Class.forName(clsName);
-		Object obj = c1.newInstance();
-		//action属性赋值
-		Iterator<String> iter = parameters.keySet().iterator();
-		while (iter.hasNext()) {
-			String key = iter.next();
-			String namval = parameters.get((String) key);
-			Method m = c1.getMethod("set" + key.substring(0, 1).toUpperCase()
-					+ key.substring(1), String.class);
-			m.invoke(obj, namval);
-		}
+    	Object action = c1.newInstance();
+    	RefactUtils.setParameters(action, parameters);
 		
-		String result = "";
+		
 		Method mt=c1.getMethod("execute");//调用执行方法
-		result = (String) mt.invoke(obj);
+		String result = (String)mt.invoke(action);
+		Map<String,Object> paraMap = RefactUtils.getParametersMap(action);
+		String resultView = cfg.getResultView(actionName, result);
 		View view = new View();
-		view.setJsp(readxml(actionName,result));
+		view.setJsp(resultView);
+		view.setParameters(paraMap);
     	return view;
     }   
     /**

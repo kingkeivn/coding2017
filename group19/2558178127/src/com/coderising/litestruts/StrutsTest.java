@@ -46,7 +46,7 @@ public class StrutsTest {
         params.put("password","123456"); //密码和预设的不一致
         
         View view  = Struts.runAction(actionName,params);        
-        
+        System.out.println("------"+view.getParameters().get("message"));
         Assert.assertEquals("/jsp/showLogin.jsp", view.getJsp());
         Assert.assertEquals("login failed,please check your user/pwd", view.getParameters().get("message"));
 	}
